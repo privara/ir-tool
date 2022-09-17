@@ -1,0 +1,3 @@
+[submodule "app/src/nec_protocol"]
+	path = app/nec_protocol
+	url = ../nec-protocol.git

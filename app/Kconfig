@@ -1,0 +1,35 @@
+# Copyright (c) 2022 Jan Privara
+# SPDX-License-Identifier: Apache-2.0
+
+menu "Zephyr"
+source "Kconfig.zephyr"
+endmenu
+
+menu "IR-TOOL"
+config PRINT_RECV_CMDS
+    bool "Print details (timing) of received commands"
+
+config ADJUST_TRANSMIT_PULSE
+	int "Adjustment of transmitted pulse duration [us]"
+	range -100 100
+	default 0
+
+config ADJUST_TRANSMIT_SPACE
+	int "Adjustment of transmitted space duration [us]"
+	range -100 100
+	default 0
+
+config ADJUST_RECEIVE_PULSE
+	int "Adjustment of received pulse duration [us]"
+	range -100 100
+	default 0
+
+config ADJUST_RECEIVE_SPACE
+	int "Adjustment of received space duration [us]"
+	range -100 100
+	default 0
+endmenu
+
+module = APP
+module-str = app
+source "subsys/logging/Kconfig.template.log_config"
