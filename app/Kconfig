@@ -8,16 +8,17 @@ endmenu
 menu "IR-TOOL"
 config PRINT_RECV_CMDS
     bool "Print details (timing) of received commands"
+	default y
 
 config ADJUST_TRANSMIT_PULSE
 	int "Adjustment of transmitted pulse duration [us]"
 	range -100 100
-	default 0
+	default 50
 
 config ADJUST_TRANSMIT_SPACE
 	int "Adjustment of transmitted space duration [us]"
 	range -100 100
-	default 0
+	default -50
 
 config ADJUST_RECEIVE_PULSE
 	int "Adjustment of received pulse duration [us]"
