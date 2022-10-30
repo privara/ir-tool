@@ -1,0 +1,48 @@
+/*
+ * Copyright (c) 2022 Jan Privara
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+/ {
+	aliases {
+   		ir-sen = &ir_sensor0;
+		ir-led = &pwm_led0;
+   	};
+
+	ir_sensor {
+		compatible = "gpio-keys";
+		ir_sensor0: ir_sensor0 {
+			gpios =  <&gpio0 4 GPIO_ACTIVE_LOW>;
+			label = "IR0";
+		};
+	};
+
+	pwmleds {
+		compatible = "pwm-leds";
+
+		pwm_led0: pwm_led_0 {
+			pwms = <&ledc0 0 PWM_NSEC(26313) PWM_POLARITY_NORMAL>;
+		};
+	};
+};
+
+&pinctrl {
+	ledc0_default: ledc0_default {
+		group1 {
+			pinmux = <LEDC_CH0_GPIO25>;
+			output-enable;
+		};
+	};
+};
+
+&ledc0 {
+	pinctrl-0 = <&ledc0_default>;
+	pinctrl-names = "default";
+	status = "okay";
+	#address-cells = <1>;
+	#size-cells = <0>;
+	channel0@0 {
+		reg = <0x0>;
+		timer = <0>;
+	};
+};
