@@ -10,6 +10,9 @@
 
 #define IR_BUF_MAX_SAMPLES 200
 
+/**
+ * Infra-red samples buffer
+ */
 typedef struct
 {
 	int length;
