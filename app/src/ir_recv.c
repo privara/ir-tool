@@ -55,7 +55,7 @@ void timeout_handler(struct k_timer *timer_id)
 	const uint32_t us_div = (sys_clock_hw_cycles_per_sec() / 1000000);
 
 	// add the timeouted sample
-	if (ir_recv_buf->length < IR_BUF_MAX_SAMPLES - 1) {
+	if (ir_recv_buf->length < CONFIG_IR_BUF_SIZE - 1) {
 		ir_recv_buf->buf[ir_recv_buf->length++] = (time - prev_time) / us_div;
 	}
 
@@ -103,7 +103,7 @@ void irsen_change(const struct device *dev, struct gpio_callback *cb,
 	if (val == prev_val) {
 		LOG_WRN("Missed a transition of IR sensor\n");
 		return;
-	} else if (ir_recv_buf->length < IR_BUF_MAX_SAMPLES - 1) {
+	} else if (ir_recv_buf->length < CONFIG_IR_BUF_SIZE - 1) {
 		uint32_t duration = (time - prev_time) / us_div;
 
 		duration += prev_val == 1 ? CONFIG_ADJUST_RECEIVE_PULSE :
@@ -114,7 +114,7 @@ void irsen_change(const struct device *dev, struct gpio_callback *cb,
 		prev_val = val;
 	}
 
-	if (ir_recv_buf->length == IR_BUF_MAX_SAMPLES)
+	if (ir_recv_buf->length == CONFIG_IR_BUF_SIZE)
 	{
 		k_timer_stop(&tout_timer);
 		finished();

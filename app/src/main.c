@@ -21,7 +21,7 @@ LOG_MODULE_REGISTER(app, CONFIG_APP_LOG_LEVEL);
 K_THREAD_STACK_DEFINE(ir_recv_thread_stack_area, IR_RECV_STACKSIZE);
 static struct k_thread ir_recv_thread_data;
 
-uint32_t samples_buf[IR_BUF_MAX_SAMPLES];
+uint32_t samples_buf[CONFIG_IR_BUF_SIZE];
 ir_raw_bit_buf_t ir_buf = {
 	.buf = samples_buf,
 	.length = 0

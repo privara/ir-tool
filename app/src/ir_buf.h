@@ -8,8 +8,6 @@
 
 #include <inttypes.h>
 
-#define IR_BUF_MAX_SAMPLES 200
-
 /**
  * Infra-red samples buffer
  */

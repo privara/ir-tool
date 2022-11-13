@@ -6,6 +6,10 @@ source "Kconfig.zephyr"
 endmenu
 
 menu "IR-TOOL"
+config IR_BUF_SIZE
+	int "Size of the IR samples buffer [samples]"
+	default 256
+
 config PRINT_RECV_CMDS
     bool "Print details (timing) of received commands"
 	default y
