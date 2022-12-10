@@ -15,22 +15,22 @@ config PRINT_RECV_CMDS
 	default y
 
 config ADJUST_TRANSMIT_PULSE
-	int "Adjustment of transmitted pulse duration [us]"
+	int "Adjustment of transmitted pulse duration [usec]"
 	range -100 100
 	default 50
 
 config ADJUST_TRANSMIT_SPACE
-	int "Adjustment of transmitted space duration [us]"
+	int "Adjustment of transmitted space duration [usec]"
 	range -100 100
 	default -50
 
 config ADJUST_RECEIVE_PULSE
-	int "Adjustment of received pulse duration [us]"
+	int "Adjustment of received pulse duration [usec]"
 	range -100 100
 	default 0
 
 config ADJUST_RECEIVE_SPACE
-	int "Adjustment of received space duration [us]"
+	int "Adjustment of received space duration [usec]"
 	range -100 100
 	default 0
 endmenu

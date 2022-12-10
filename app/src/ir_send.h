@@ -6,7 +6,21 @@
 #ifndef IR_SEND_H
 #define IR_SEND_H
 
-#include "ir_buf.h"
+#include "ir_types.h"
+
+/**
+ * @brief Get IR transmitter timing adjustments
+ *
+ * @return Structure with timing adj. data
+ */
+ir_tim_adj_t ir_send_get_tim_adj();
+
+/**
+ * @brief Set IR transmitter timing adjustments
+ *
+ * @param Structure with timing adj. data
+ */
+void ir_send_set_tim_adj(ir_tim_adj_t tim);
 
 /**
  * @brief Initialize IR send

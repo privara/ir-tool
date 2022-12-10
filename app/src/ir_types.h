@@ -17,4 +17,14 @@ typedef struct
 	uint32_t * buf;
 } ir_raw_bit_buf_t;
 
+/**
+ * Infra-red timing adjustments for both 
+ * pulse duration and space duration in in microseconds (usec)
+ */
+typedef struct
+{
+	int32_t pulse;
+	int32_t space;
+} ir_tim_adj_t;
+
 #endif // IR_BUF_H

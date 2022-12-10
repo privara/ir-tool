@@ -8,10 +8,24 @@
 
 #include <inttypes.h>
 #include <stdbool.h>
-#include "ir_buf.h"
+#include "ir_types.h"
 
 #define IR_RECV_STACKSIZE 1024
 #define IR_RECV_PRIORITY 7
+
+/**
+ * @brief Get IR receiver timing adjustments
+ *
+ * @return Structure with timing adj. data
+ */
+ir_tim_adj_t ir_recv_get_tim_adj();
+
+/**
+ * @brief Set IR receiver timing adjustments
+ *
+ * @param Structure with timing adj. data
+ */
+void ir_recv_set_tim_adj(ir_tim_adj_t tim);
 
 /**
  * @brief Enable IR receiving

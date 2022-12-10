@@ -12,7 +12,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-#include "ir_buf.h"
+#include "ir_types.h"
 #include "ir_recv.h"
 #include "ir_send.h"
 
@@ -127,7 +127,77 @@ static int cmd_recv_disable(const struct shell *shell, size_t argc, char *argv[]
     return 0;
 }
 
+static int cmd_adj_get(const struct shell *shell, size_t argc, char *argv[])
+{
+	ir_tim_adj_t send_tim = ir_send_get_tim_adj();
+	ir_tim_adj_t recv_tim = ir_recv_get_tim_adj();
+
+	shell_fprintf(shell, SHELL_NORMAL, "IR timing adjustment:\n");
+	shell_fprintf(shell, SHELL_NORMAL, "  -Transmit:\n");
+
+	shell_fprintf(shell, SHELL_NORMAL, "    -Pulse: %d usec\n", send_tim.pulse);
+	shell_fprintf(shell, SHELL_NORMAL, "    -Space: %d usec\n", send_tim.space);
+
+	shell_fprintf(shell, SHELL_NORMAL, "  -Receive:\n");
+	shell_fprintf(shell, SHELL_NORMAL, "    -Pulse: %d usec\n", recv_tim.pulse);
+	shell_fprintf(shell, SHELL_NORMAL, "    -Space: %d usec\n", recv_tim.space);
+
+    return 0;
+}
+
+static int cmd_adj_send(const struct shell *shell, size_t argc, char *argv[])
+{
+	shell_fprintf(shell, SHELL_NORMAL, "IR timing send adjustment:\n");
+
+	ir_tim_adj_t send_tim;
+
+	send_tim.pulse = strtol(argv[1], NULL, 0);
+	send_tim.space = strtol(argv[2], NULL, 0);
+
+	shell_fprintf(shell, SHELL_NORMAL, "    -Pulse: %d usec\n", send_tim.pulse);
+	shell_fprintf(shell, SHELL_NORMAL, "    -Space: %d usec\n", send_tim.space);
+
+	ir_send_set_tim_adj(send_tim);
+
+    return 0;
+}
+
+static int cmd_adj_recv(const struct shell *shell, size_t argc, char *argv[])
+{
+	shell_fprintf(shell, SHELL_NORMAL, "IR timing recv adjustment:\n");
+
+	ir_tim_adj_t recv_tim;
+
+	recv_tim.pulse = strtol(argv[1], NULL, 0);
+	recv_tim.space = strtol(argv[2], NULL, 0);
+
+	shell_fprintf(shell, SHELL_NORMAL, "    -Pulse: %d usec\n", recv_tim.pulse);
+	shell_fprintf(shell, SHELL_NORMAL, "    -Space: %d usec\n", recv_tim.space);
+
+	ir_recv_set_tim_adj(recv_tim);
+
+    return 0;
+}
+
 //------------------------------------------------------------------------------
+SHELL_STATIC_SUBCMD_SET_CREATE(
+	ir_adj_cmds,
+	SHELL_CMD_ARG(list, NULL,
+		"list IR timing adjustment\n",
+		cmd_adj_get, 1, 0),
+	SHELL_CMD_ARG(send, NULL,
+		"adjust transmit IR timing\n"
+		"args: <pulse> <space>\n",
+		cmd_adj_send, 3, 0),
+	SHELL_CMD_ARG(recv, NULL,
+		"adjust receive IR timing\n"
+		"args: <pulse> <space>\n",
+		cmd_adj_recv, 3, 0),
+	SHELL_SUBCMD_SET_END
+);
+
+SHELL_CMD_REGISTER(ir_adj, &ir_adj_cmds, "IR timing adjustment", NULL);
+
 SHELL_STATIC_SUBCMD_SET_CREATE(
 	ir_send_cmds,
 	SHELL_CMD_ARG(nec, NULL,

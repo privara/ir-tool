@@ -24,6 +24,22 @@ static const struct pwm_dt_spec irled = PWM_DT_SPEC_GET(IR_LED_NODE);
 const uint32_t period_38khz = PWM_NSEC(26313U);
 const uint32_t pulse_38khz  = PWM_NSEC(26313U) / 3U;
 
+ir_tim_adj_t send_tim_adj = {
+	.pulse = CONFIG_ADJUST_TRANSMIT_PULSE,
+	.space = CONFIG_ADJUST_TRANSMIT_SPACE
+};
+
+//------------------------------------------------------------------------------
+ir_tim_adj_t ir_send_get_tim_adj()
+{
+	return send_tim_adj;
+}
+
+void ir_send_set_tim_adj(ir_tim_adj_t tim)
+{
+	send_tim_adj = tim;
+}
+
 //------------------------------------------------------------------------------
 void ir_send_init()
 {
@@ -60,7 +76,7 @@ void ir_send_buf(ir_raw_bit_buf_t * buf)
 		do {
 			now = k_cycle_get_32();
 			usec_elapsed = (now - prev) / (CONFIG_SYS_CLOCK_HW_CYCLES_PER_SEC / 1000000);
-		} while (usec_elapsed < (buf->buf[i] + CONFIG_ADJUST_TRANSMIT_PULSE));
+		} while (usec_elapsed < (buf->buf[i] + send_tim_adj.pulse));
 		prev = now;
 
 		ret = pwm_set_dt(&irled, period_38khz, 0);
@@ -73,7 +89,7 @@ void ir_send_buf(ir_raw_bit_buf_t * buf)
 			do {
 				now = k_cycle_get_32();
 				usec_elapsed = (now - prev) / (CONFIG_SYS_CLOCK_HW_CYCLES_PER_SEC / 1000000);
-			} while (usec_elapsed < (buf->buf[i+1] + CONFIG_ADJUST_TRANSMIT_SPACE));
+			} while (usec_elapsed < (buf->buf[i+1] + send_tim_adj.space));
 			prev = now;
 		}
 	}

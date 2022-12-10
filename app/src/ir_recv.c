@@ -42,6 +42,11 @@ typedef enum {
 
 state_t current_state = ST_DISABLED;
 
+ir_tim_adj_t recv_tim_adj = {
+	.pulse = CONFIG_ADJUST_RECEIVE_PULSE,
+	.space = CONFIG_ADJUST_RECEIVE_SPACE
+};
+
 //------------------------------------------------------------------------------
 void finished()
 {
@@ -106,8 +111,8 @@ void irsen_change(const struct device *dev, struct gpio_callback *cb,
 	} else if (ir_recv_buf->length < CONFIG_IR_BUF_SIZE - 1) {
 		uint32_t duration = (time - prev_time) / us_div;
 
-		duration += prev_val == 1 ? CONFIG_ADJUST_RECEIVE_PULSE :
-		                            CONFIG_ADJUST_RECEIVE_SPACE;
+		duration += prev_val == 1 ? recv_tim_adj.pulse :
+		                            recv_tim_adj.space;
 
 		ir_recv_buf->buf[ir_recv_buf->length++] = duration;
 		prev_time = time;
@@ -146,6 +151,17 @@ void init()
 
 	gpio_init_callback(&irsen_cb_data, irsen_change, BIT(irsen.pin));
 	gpio_add_callback(irsen.port, &irsen_cb_data);
+}
+
+//------------------------------------------------------------------------------
+ir_tim_adj_t ir_recv_get_tim_adj()
+{
+	return recv_tim_adj;
+}
+
+void ir_recv_set_tim_adj(ir_tim_adj_t tim)
+{
+	recv_tim_adj = tim;
 }
 
 //------------------------------------------------------------------------------
