@@ -12,7 +12,7 @@
 	ir_sensor {
 		compatible = "gpio-keys";
 		ir_sensor0: ir_sensor0 {
-			gpios =  <&gpio0 4 GPIO_ACTIVE_LOW>;
+			gpios =  <&gpio0 14 GPIO_ACTIVE_LOW>;
 			label = "IR0";
 		};
 	};
